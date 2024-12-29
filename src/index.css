@@ -1,0 +1,45 @@
+body {
+  background-color: rgb(43, 40, 40);
+  color: antiquewhite;
+  font-family: 'Raleway';
+}
+
+.container {
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+  font-family: 'Raleway', sans-serif;
+}
+
+.form-control, .form-select {
+  background-color: #333;
+  color: white;
+  border: 1px solid #4341be;
+}
+
+.form-control::placeholder {
+  color: #999;
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: #444;
+  border-color: #ffc107;
+  box-shadow: 0 0 5px #ffc107;
+}
+
+.btn-primary {
+  background-color: #ffd700;
+  color: #1a1a1a;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #ffc107;
+}
