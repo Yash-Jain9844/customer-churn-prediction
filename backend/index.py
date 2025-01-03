@@ -18,11 +18,10 @@ def predict():
         # Prepare input data for prediction
         input_data = [
             data["creditscore"], data["age"], data["tenure"], data["balance"],
-            data["numofproducts"], data["estimatedsalary"],
-            data["geography_Germany"], data["geography_Spain"], data["gender_Male"],
+            data["numofproducts"], data["estimatedsalary"], data["gender_Male"],
             data["hascrcard"], data["isactivemember"]
         ]
-
+        print(input_data)
         # Predict using the trained model
         prediction = customer_exit_model.predict(input_data)
         print(prediction)

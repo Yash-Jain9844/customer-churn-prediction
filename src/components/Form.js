@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"
-;
+import { useNavigate } from "react-router-dom";
 export default function Demo() {
     const navigate = useNavigate(); // Initialize the navigate function
 
@@ -11,8 +10,6 @@ export default function Demo() {
     balance: 1000.0,
     numofproducts: 2,
     estimatedsalary: 100000.0,
-    geography_Germany: true,
-    geography_Spain: false,
     gender_Male: true,
     hascrcard: true,
     isactivemember: false,
@@ -20,13 +17,7 @@ export default function Demo() {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    if (id === "Geography") {
-      setFormData({
-        ...formData,
-        geography_Germany: value === "Germany",
-        geography_Spain: value === "Spain",
-      });
-    } else if (
+    if (
       id === "gender_Male" ||
       id === "hascrcard" ||
       id === "isactivemember"
@@ -161,22 +152,6 @@ export default function Demo() {
             onChange={handleChange}
             placeholder="Enter estimated salary"
           />
-        </div>
-
-        {/* Geography */}
-        <div className="mb-3">
-          <label htmlFor="Geography" className="form-label">
-            Geography :{" "}
-          </label>
-          <select
-            className="form-select"
-            id="Geography"
-            onChange={handleChange}
-          >
-            <option value="">Select</option>
-            <option value="Germany">Germany</option>
-            <option value="Spain">Spain</option>
-          </select>
         </div>
 
         {/* Gender */}
