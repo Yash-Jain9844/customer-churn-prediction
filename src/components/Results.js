@@ -1,5 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { CheckCircle, XCircle } from "lucide-react";
+import "../result.css";
 
 export default function Results() {
   const location = useLocation();
@@ -7,88 +9,56 @@ export default function Results() {
 
   if (!data) {
     return (
-      <div style={styles.container}>
-        <h1>No data available</h1>
+      <div className="results-container">
+        <div className="glass-card">
+          <h1>No data available</h1>
+        </div>
       </div>
     );
   }
+
   const { message, prediction } = data;
-  const positivePredictions = Object.values(prediction).filter(result => result === 1).length;
-  console.log(positivePredictions)
+  const positivePredictions = Object.values(prediction).filter(
+    (result) => result === 1
+  ).length;
+
   return (
-    <div style={styles.container}>
-      <h1 style={styles.heading}>Prediction Results</h1>
-      <p style={styles.message}><strong>Message:</strong> {message}</p>
-      <h2 style={styles.subHeading}>Model Predictions:</h2>
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            <th style={styles.tableHeader}>Model</th>
-            <th style={styles.tableHeader}>Prediction</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.entries(prediction).map(([model, result]) => (
-            <tr key={model}>
-              <td style={styles.tableCell}>{model}</td>
-              <td style={styles.tableCell}>{result === 1 ? "Yes" : "No"}</td>
+    <div className="results-container">
+      <div className="glass-card">
+        <h1>Prediction Results</h1>
+        <p>
+          <strong>Message:</strong> {message}
+        </p>
+        <h2>Model Predictions:</h2>
+        <table className="results-table">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Prediction</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <p style={styles.verdict}><strong>Verdict: </strong> {positivePredictions >= 2 ? "The Customer will leave the business." : "The Customer will not leave the business."}</p>
+          </thead>
+          <tbody>
+            {Object.entries(prediction).map(([model, result]) => (
+              <tr key={model}>
+                <td>{model}</td>
+                <td>
+                  {result === 1 ? (
+                    <CheckCircle color="green" />
+                  ) : (
+                    <XCircle color="red" />
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p className="verdict">
+          <strong>Verdict:</strong>{" "}
+          {positivePredictions >= 2
+            ? "The Customer will leave the business."
+            : "The Customer will not leave the business."}
+        </p>
+      </div>
     </div>
   );
 }
-
-const styles = {
-  body:{
-    fontFamily: 'Raleway',
-  },
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    minHeight: "80vh",
-    fontFamily: "Arial, sans-serif",
-    textAlign: "center",
-    backgroundColor: "rgb(43, 40, 40)",
-    padding: "20px",
-    fontFamily: 'Raleway',
-
-  },
-  heading: {
-    fontSize: "2rem",
-    marginBottom: "20px",
-  },
-  verdict:{
-    marginTop : "30px",
-    fontSize:"2rem"
-  },
-  message: {
-    fontSize: "1.2rem",
-    marginBottom: "20px",
-  },
-  subHeading: {
-    fontSize: "1.5rem",
-    marginBottom: "10px",
-  },
-  table: {
-    borderCollapse: "collapse",
-    width: "80%",
-    marginTop: "20px",
-  },
-  tableHeader: {
-    border: "1px solid #ddd",
-    padding: "8px",
-    // backgroundColor: "white",
-    // color: "black",
-    textAlign: "center",
-  },
-  tableCell: {
-    border: "1px solid #ddd",
-    padding: "8px",
-    textAlign: "center",
-  },
-};

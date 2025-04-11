@@ -1,218 +1,213 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-export default function Demo() {
-    const navigate = useNavigate(); // Initialize the navigate function
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../index.css";
+import {
+  User,
+  Calendar,
+  CreditCard,
+  TrendingUp,
+  DollarSign,
+  ShoppingBag,
+  Wallet,
+  ShieldCheck,
+  Activity,
+} from "lucide-react";
+
+export default function Form() {
+  const navigate = useNavigate();
+  const [step, setStep] = useState(0);
+
+  const questions = [
+    {
+      id: "creditscore",
+      label: "Credit Score",
+      type: "number",
+      icon: <CreditCard size={20} />,
+    },
+    { id: "age", label: "Age", type: "number", icon: <Calendar size={20} /> },
+    {
+      id: "tenure",
+      label: "Tenure",
+      type: "number",
+      icon: <TrendingUp size={20} />,
+    },
+    {
+      id: "balance",
+      label: "Balance",
+      type: "number",
+      icon: <Wallet size={20} />,
+    },
+    {
+      id: "numofproducts",
+      label: "Number of Products",
+      type: "number",
+      icon: <ShoppingBag size={20} />,
+    },
+    {
+      id: "estimatedsalary",
+      label: "Estimated Salary",
+      type: "number",
+      icon: <DollarSign size={20} />,
+    },
+    {
+      id: "gender_Male",
+      label: "Gender",
+      type: "select",
+      icon: <User size={20} />,
+      options: [
+        { label: "Select", value: "" },
+        { label: "Male", value: "true" },
+        { label: "Female", value: "false" },
+      ],
+    },
+    {
+      id: "hascrcard",
+      label: "Has Credit Card",
+      type: "select",
+      icon: <ShieldCheck size={20} />,
+      options: [
+        { label: "Select", value: "" },
+        { label: "Yes", value: "true" },
+        { label: "No", value: "false" },
+      ],
+    },
+    {
+      id: "isactivemember",
+      label: "Is Active Member",
+      type: "select",
+      icon: <Activity size={20} />,
+      options: [
+        { label: "Select", value: "" },
+        { label: "Yes", value: "true" },
+        { label: "No", value: "false" },
+      ],
+    },
+  ];
 
   const [formData, setFormData] = useState({
-     creditscore: 222,
-    age: 34,
-    tenure: 5,
-    balance: 1000.0,
-    numofproducts: 2,
-    estimatedsalary: 100000.0,
-    gender_Male: true,
-    hascrcard: true,
-    isactivemember: false,
+    creditscore: "",
+    age: "",
+    tenure: "",
+    balance: "",
+    numofproducts: "",
+    estimatedsalary: "",
+    gender_Male: "",
+    hascrcard: "",
+    isactivemember: "",
   });
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    if (
-      id === "gender_Male" ||
-      id === "hascrcard" ||
-      id === "isactivemember"
-    ) {
-      setFormData({ ...formData, [id]: value === "true" });
-    } else if (
-      [
-        "creditscore",
-        "age",
-        "tenure",
-        "balance",
-        "numofproducts",
-        "estimatedsalary",
-      ].includes(id)
-    ) {
-      setFormData({ ...formData, [id]: parseFloat(value) });
-    }
+    setFormData((prev) => ({
+      ...prev,
+      [id]:
+        id === "gender_Male" || id === "hascrcard" || id === "isactivemember"
+          ? value === "true"
+          : value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
+    const finalData = {
+      ...formData,
+      creditscore: parseFloat(formData.creditscore),
+      age: parseFloat(formData.age),
+      tenure: parseFloat(formData.tenure),
+      balance: parseFloat(formData.balance),
+      numofproducts: parseFloat(formData.numofproducts),
+      estimatedsalary: parseFloat(formData.estimatedsalary),
+    };
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/predict", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/predict`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(finalData),
       });
 
-      if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
-      }
-
+      if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
       const data = await res.json();
-      console.log("Server Response:", data);
-      navigate("/result", { state: { data } }); // Pass data via state
+      navigate("/result", { state: { data } });
     } catch (error) {
-      console.error("Error during submission:", error.message || error);
+      console.error("Submission error:", error.message);
     }
   };
+
+  const current = questions[step];
+
   return (
-    <>
-      <h2>Customer Churn Predictor</h2>
-      <form onSubmit={handleSubmit}>
-        {/* Credit Score */}
-        <div className="mb-3">
-          <label htmlFor="creditscore" className="form-label">
-            Credit Score :{" "}
-          </label>
-          <input
-            type="number"
-            className="form-control"
-            id="creditscore"
-            onChange={handleChange}
-            placeholder="Enter credit score"
-          />
-        </div>
+    <div className="container-fluid py-4 px-3">
+      <div
+        className="glass-card p-4 w-100 mx-auto"
+        style={{ maxWidth: "100%", minWidth: "100%" }}
+      >
+        <h3 className="text-center fw-bold" style={{ color: "black" }}>
+          Customer Churn Predictor
+        </h3>
 
-        {/* age */}
-        <div className="mb-3">
-          <label htmlFor="age" className="form-label">
-            Age :{" "}
-          </label>
-          <input
-            type="number"
-            className="form-control"
-            id="age"
-            // value={formData.age}
-            onChange={handleChange}
-            placeholder="Enter age"
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label
+              htmlFor={current.id}
+              className="form-label d-flex align-items-center gap-2"
+            >
+              {current.icon} {current.label}
+            </label>
 
-        {/* tenure */}
-        <div className="mb-3">
-          <label htmlFor="tenure" className="form-label">
-            Tenure :{" "}
-          </label>
-          <input
-            type="number"
-            className="form-control"
-            id="tenure"
-            // value={formData.tenure}
-            onChange={handleChange}
-            placeholder="Enter tenure"
-          />
-        </div>
+            {current.type === "select" ? (
+              <select
+                className="form-select"
+                id={current.id}
+                value={formData[current.id]}
+                onChange={handleChange}
+                required
+              >
+                {current.options.map((opt, i) => (
+                  <option key={i} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                type="number"
+                className="form-control"
+                id={current.id}
+                value={formData[current.id]}
+                onChange={handleChange}
+                required
+              />
+            )}
+          </div>
 
-        {/* balance */}
-        <div className="mb-3">
-          <label htmlFor="balance" className="form-label">
-            Balance :{" "}
-          </label>
-          <input
-            type="number"
-            className="form-control"
-            id="balance"
-            // value={formData.balance}
-            onChange={handleChange}
-            placeholder="Enter balance"
-          />
-        </div>
-
-        {/* Number of Products */}
-        <div className="mb-3">
-          <label htmlFor="numofproducts" className="form-label">
-            Number of Products :{" "}
-          </label>
-          <input
-            type="number"
-            className="form-control"
-            id="numofproducts"
-            // value={formData.numofproducts}
-            onChange={handleChange}
-            placeholder="Enter number of products"
-          />
-        </div>
-
-        {/* Estimated Salary */}
-        <div className="mb-3">
-          <label htmlFor="estimatedsalary" className="form-label">
-            Estimated Salary :{" "}
-          </label>
-          <input
-            type="number"
-            className="form-control"
-            id="estimatedsalary"
-            // value={formData.estimatedsalary}
-            onChange={handleChange}
-            placeholder="Enter estimated salary"
-          />
-        </div>
-
-        {/* Gender */}
-        <div className="mb-3">
-          <label htmlFor="gender_Male" className="form-label">
-            Gender :{" "}
-          </label>
-          <select
-            className="form-select"
-            id="gender_Male"
-            onChange={handleChange}
-          >
-            <option value="">Select</option>
-            <option value="true">Male</option>
-            <option value="false">Female</option>
-          </select>
-        </div>
-
-        {/* Has Credit Card */}
-        <div className="mb-3">
-          <label htmlFor="hascrcard" className="form-label">
-            Has Credit Card :{" "}
-          </label>
-          <select
-            className="form-select"
-            id="hascrcard"
-            onChange={handleChange}
-          >
-            <option value="">Select</option>
-            <option value="true">Yes</option>
-            <option value="false">No</option>
-          </select>
-        </div>
-
-        {/* Is Active Member */}
-        <div className="mb-3">
-          <label htmlFor="isactivemember" className="form-label">
-            Is Active Member :{" "}
-          </label>
-          <select
-            className="form-select"
-            id="isactivemember"
-            onChange={handleChange}
-          >
-            <option value="">Select</option>
-            <option value="true">Yes</option>
-            <option value="false">No</option>
-          </select>
-        </div>
-
-        {/* Submit Button */}
-        <div className="d-flex justify-content-center">
-          <button
-            style={{ width: "50%" }}
-            type="submit"
-            className="btn btn-primary"
-          >
-            Predict :{" "}
-          </button>
-        </div>
-      </form>
-    </>
+          <div className="d-flex flex-column flex-sm-row justify-content-between gap-2">
+            {step > 0 && (
+              <button
+                type="button"
+                className="btn btn-outline-light w-100"
+                onClick={() => setStep(step - 1)}
+              >
+                Previous
+              </button>
+            )}
+            {step < questions.length - 1 ? (
+              <button
+                type="button"
+                className="btn btn-light w-100"
+                onClick={() => setStep(step + 1)}
+              >
+                Next
+              </button>
+            ) : (
+              <button type="submit" className="btn btn-success w-100">
+                Predict
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }

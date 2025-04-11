@@ -4,7 +4,7 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder, RobustScaler
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score,classification_report
 from sklearn.model_selection import train_test_split
 
 class CustomerExitModel:
@@ -26,7 +26,7 @@ class CustomerExitModel:
         )
         self.sgdmodel = SGDClassifier(
             random_state=42,
-            loss='log_loss',  # Correct parameter
+            loss='log_loss',
             penalty='l2',
             alpha=0.0001,
             max_iter=1000,
@@ -78,18 +78,7 @@ class CustomerExitModel:
 
             print(f"{name}:")
             print(f"  Test Accuracy: {test_accuracy:.2f}")
-
-        # Evaluate all models
-        self.evaluate_model(X_test, y_test)
-
-    def evaluate_model(self, X_test, y_test):
-        for name, model in self.trained_models.items():
-            y_pred = model.predict(X_test)
-            accuracy = accuracy_score(y_test, y_pred)
-            precision = precision_score(y_test, y_pred)
-            recall = recall_score(y_test, y_pred)
-            f1 = f1_score(y_test, y_pred)
-            print(f"{name} - Accuracy: {accuracy:.2f}, Precision: {precision:.2f}, Recall: {recall:.2f}, F1: {f1:.2f}")
+            print("\nClassification Report:\n", classification_report(y_test, y_pred_test))
 
     def predict(self, input_data):
         # Validate if models and preprocessing are initialized

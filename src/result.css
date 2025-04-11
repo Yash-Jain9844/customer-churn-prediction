@@ -1,0 +1,101 @@
+/* Results.css */
+
+.results-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1e1e2f, #3c1c64);
+    padding: 20px;
+    font-family: 'Raleway', sans-serif;
+  }
+  
+  .glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 30px;
+    width: 100%;
+    max-width: 700px;
+    color: #ffffff;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  }
+  
+  .glass-card h1,
+  .glass-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .glass-card table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .glass-card th,
+  .glass-card td {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 12px;
+    text-align: center;
+  }
+  
+  .glass-card th {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .glass-card .verdict {
+    margin-top: 30px;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  
+  @media (max-width: 576px) {
+    .glass-card {
+      padding: 20px;
+    }
+  
+    .glass-card table,
+    .glass-card th,
+    .glass-card td {
+      font-size: 0.9rem;
+    }
+  
+    .glass-card .verdict {
+      font-size: 1.2rem;
+    }
+  }
+  
+
+  .results-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .results-table th,
+  .results-table td {
+    padding: 14px 20px;
+    text-align: center;
+    color: #e0e0e0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  
+  .results-table th {
+    background: rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  
+  .results-table tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .results-table tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transition: background 0.3s ease;
+  }

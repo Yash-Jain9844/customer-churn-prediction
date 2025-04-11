@@ -1,45 +1,69 @@
+/* index.css */
 body {
-  background-color: rgb(43, 40, 40);
-  color: antiquewhite;
+  margin: 0;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  background-size: 400% 400%;
   font-family: 'Raleway';
+  animation: gradientMove 15s ease infinite;
+  color: white;
 }
 
-.container {
-  padding: 20px;
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
+.glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.6s ease;
+  transition: all 0.4s ease;
 }
 
-label {
-  font-weight: bold;
-  font-family: 'Raleway', sans-serif;
+/* Responsive padding/font size */
+@media (max-width: 576px) {
+  .glass-card {
+    padding: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+label, .form-control, .form-select {
+  color: #fff;
 }
 
 .form-control, .form-select {
-  background-color: #333;
-  color: white;
-  border: 1px solid #4341be;
-}
-
-.form-control::placeholder {
-  color: #999;
-}
-
-.form-control:focus, .form-select:focus {
-  background-color: #444;
-  border-color: #ffc107;
-  box-shadow: 0 0 5px #ffc107;
-}
-
-.btn-primary {
-  background-color: #ffd700;
-  color: #1a1a1a;
+  background-color: rgba(255, 255, 255, 0.1);
   border: none;
 }
 
-.btn-primary:hover {
-  background-color: #ffc107;
+button {
+  min-width: 100px;
 }
